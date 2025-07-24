@@ -16,10 +16,11 @@ sudo apt -y install ansible
 sudo apt -y install git
 
 # 5. Nettoyer un éventuel répertoire existant
-rm -rf kubernetes-certification-stack || echo "previous folder removed"
+rm -rf cka-stack || echo "previous folder removed"
 
-git clone -b feat/ubuntu https://github.com/eazytraining/kubernetes-certification-stack.git
-cd kubernetes-certification-stack
+git clone -b ubuntu-aws https://github.com/OlivierKouokam/review-cka-stack.git cka-stack
+
+cd cka-stack
 KUBERNETES_VERSION=1.31
 ansible-galaxy install -r roles/requirements.yml
 if [ $1 == "master" ]
