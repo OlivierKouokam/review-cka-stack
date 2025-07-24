@@ -61,7 +61,7 @@
     - role: geerlingguy.containerd
     - role: geerlingguy.kubernetes
   post_tasks:
-  - name: Configure Flannel networking for enp0s8
+  - name: Configure Flannel networking for {{ ansible_default_ipv4.interface }}
     shell: "curl {{ kubernetes_flannel_manifest_file }} | sed '/kube-subnet-mgr.*/a\\        - --iface={{ ansible_default_ipv4.interface }}' | kubectl apply -f -"
     register: flannel_result
     changed_when: "'created' in flannel_result.stdout"
