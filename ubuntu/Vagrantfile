@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "master" do |master|
       master.vm.box = "ubuntu/jammy64"
       # master.vm.box = "eazytrainingfr/ubuntu"
-      master.vm.box_version = "1.0"
+      # master.vm.box_version = "1.0"
       master.vm.network "private_network", type: "static", ip: "192.168.99.90"
       master.vm.hostname = "master"
       master.vm.provider "virtualbox" do |v|
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
       config.vm.define "worker#{i}" do |worker|
         worker.vm.box = "ubuntu/jammy64"
         # worker.vm.box = "eazytrainingfr/ubuntu"
-        worker.vm.box_version = "1.0"
+        # worker.vm.box_version = "1.0"
         worker.vm.network "private_network", type: "static", ip: "192.168.99.9#{i}"
         worker.vm.hostname = "worker#{i}"
         worker.vm.provider "virtualbox" do |v|
