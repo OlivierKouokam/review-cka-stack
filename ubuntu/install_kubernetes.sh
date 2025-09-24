@@ -13,10 +13,12 @@ sudo apt update
 sudo apt install -y ansible
 
 rm -Rf kubernetes-certification-stack || echo "previous folder removed"
-git clone -b v1.32 https://github.com/eazytraining/kubernetes-certification-stack.git
+git clone -b v1.33 https://github.com/OlivierKouokam/review-cka-stack.git
+# git clone -b v1.32 https://github.com/eazytraining/kubernetes-certification-stack.git
 cd kubernetes-certification-stack/ubuntu
 
-KUBERNETES_VERSION=1.32.1
+KUBERNETES_VERSION=1.33.4
+# KUBERNETES_VERSION=1.32.1
 
 ansible-galaxy install -r roles/requirements.yml --force
 
