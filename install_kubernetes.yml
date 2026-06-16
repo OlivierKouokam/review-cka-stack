@@ -14,7 +14,7 @@
     kubernetes_kubelet_extra_args: "--node-ip={{ node_ip }}"
     
     # On définit le préfixe du réseau cible
-    cluster_network_prefix: "^192\\.168\\.99\ \."
+    cluster_network_prefix: "^192\\.168\\.99\\."
     
     containerd_config_default_write: true
     crictl_version: "v1.31.1"
