@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
         v.name = "master"
         v.memory = 2048
         v.cpus = 2
+        v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
       end
       master.vm.provision :shell do |shell|
         shell.path = "install_kubernetes.sh"
@@ -30,6 +31,7 @@ Vagrant.configure("2") do |config|
           v.name = "worker#{i}"
           v.memory = ram_worker
           v.cpus = cpu_worker
+          v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
         end
         worker.vm.provision :shell do |shell|
           shell.path = "install_kubernetes.sh"
