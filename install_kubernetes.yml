@@ -86,7 +86,15 @@
         name: systemd-timesyncd
         state: started
         enabled: true
-  
+
+    - name: "Attendre que l'horloge soit synchronisée"
+      shell: timedatectl status | grep "System clock synchronized: yes"
+      register: ntp_check
+      until: ntp_check.rc == 0
+      retries: 10
+      delay: 5
+      changed_when: false
+    
     - name: Force NTP synchronization via timedatectl
       shell: timedatectl set-ntp true
       changed_when: false
