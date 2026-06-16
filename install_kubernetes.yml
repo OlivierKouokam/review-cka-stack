@@ -11,6 +11,7 @@
     kubernetes_version: "{{ kubernetes_version_rhel_package.split('.')[:2]  | join('.') }}"
     #kubernetes_kubelet_extra_args: "--node-ip={{ ansible_enp0s8.ipv4.address }}"
     kubernetes_kubelet_extra_args: "--node-ip={{ ansible_facts['eth1']['ipv4']['address'] }}"
+    containerd_config_default_write: true
     crictl_version: "v1.31.1"
     kubernetes_config_kubelet_configuration:
       cgroupDriver: "systemd"
