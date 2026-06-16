@@ -10,7 +10,12 @@
       cidr: '10.244.0.0/16'  
     kubernetes_version: "{{ kubernetes_version_rhel_package.split('.')[:2]  | join('.') }}"
     #kubernetes_kubelet_extra_args: "--node-ip={{ ansible_enp0s8.ipv4.address }}"
-    kubernetes_kubelet_extra_args: "--node-ip={{ ansible_facts['eth1']['ipv4']['address'] }}"
+    # kubernetes_kubelet_extra_args: "--node-ip={{ ansible_facts['eth1']['ipv4']['address'] }}"
+    # kubernetes_kubelet_extra_args: "--node-ip={{ node_ip }}"
+    
+    # On définit le préfixe du réseau cible
+    cluster_network_prefix: "^192\\.168\\.99\ \."
+    
     containerd_config_default_write: true
     crictl_version: "v1.31.1"
     kubernetes_config_kubelet_configuration:
@@ -33,6 +38,27 @@
           - system:bootstrappers:kubeadm:default-node-token
     kubernetes_allow_pods_on_master: true
   pre_tasks:
+  - name: "Collecter les faits système (indispensable)"
+      ansible.builtin.setup:
+
+  - name: Get host IP (méthode robuste et variabilisée)
+    ansible.builtin.set_fact:
+      node_ip: >-
+        {{ 
+          ansible_interfaces 
+          | map('extract', ansible_facts) 
+          | selectattr('ipv4', 'defined') 
+          | map(attribute='ipv4') 
+          | flatten 
+          | selectattr('address', 'match', cluster_network_prefix) 
+          | map(attribute='address') 
+          | first 
+        }}
+      
+  # - name: "Définir l'IP du nœud Kubernetes"
+  #   ansible.builtin.set_fact:
+  #     node_ip: "{{ ansible_facts['eth1']['ipv4']['address'] }}"
+
   - name: Enable br_netfilter module
     modprobe:
       name: br_netfilter
