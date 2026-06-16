@@ -1,5 +1,14 @@
 
 #!/bin/bash
+# --- SYNCHRONISATION DU TEMPS & VEILLE PROLONGÉE ---
+# Démasquer, installer et forcer l'activation de systemd-timesyncd
+sudo systemctl unmask systemd-timesyncd || true
+sudo apt-get update
+sudo apt-get install -y systemd-timesyncd
+sudo systemctl enable --now systemd-timesyncd
+sudo timedatectl set-ntp true
+# ---------------------------------------------------
+
 # 1. Mettre à jour la liste des paquets et appliquer les mises à jour disponibles
 sudo apt update
 
