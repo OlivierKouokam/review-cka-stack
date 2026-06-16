@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
         v.name = "master"
         v.memory = 2048
         v.cpus = 2
+        # Forcer la resynchronisation de l'horloge avec l'hôte à la sortie de veille
         v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
       end
       master.vm.provision :shell do |shell|
@@ -31,6 +32,7 @@ Vagrant.configure("2") do |config|
           v.name = "worker#{i}"
           v.memory = ram_worker
           v.cpus = cpu_worker
+          # Forcer la resynchronisation de l'horloge avec l'hôte à la sortie de veille
           v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
         end
         worker.vm.provision :shell do |shell|
