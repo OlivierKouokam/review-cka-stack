@@ -39,7 +39,7 @@
     kubernetes_allow_pods_on_master: true
   pre_tasks:
   - name: "Collecter les faits système (indispensable)"
-      ansible.builtin.setup:
+    ansible.builtin.setup:
 
   - name: Get host IP (méthode robuste et variabilisée)
     ansible.builtin.set_fact:
@@ -104,13 +104,17 @@
     - role: geerlingguy.containerd
     - role: geerlingguy.kubernetes
   post_tasks:
-  - name: Configure Flannel networking for enp0s8
-    shell: "curl {{ kubernetes_flannel_manifest_file }} | sed '/kube-subnet-mgr.*/a\\        - --iface=enp0s8' | kubectl apply -f -"
-    register: flannel_result
-    changed_when: "'created' in flannel_result.stdout"
-    when: kubernetes_pod_network.cni == 'flannel' and kubernetes_role == 'control_plane' and installation_method == 'vagrant'
-    retries: 3
-    delay: 5
+  # - name: Configure Flannel networking for enp0s8
+  #   shell: "curl {{ kubernetes_flannel_manifest_file }} | sed '/kube-subnet-mgr.*/a\\        - --iface=enp0s8' | kubectl apply -f -"
+  #   register: flannel_result
+  #   changed_when: "'created' in flannel_result.stdout"
+  #   when: kubernetes_pod_network.cni == 'flannel' and kubernetes_role == 'control_plane' and installation_method == 'vagrant'
+  #   retries: 3
+  #   delay: 5
+
+  - name: Appliquer le manifeste Flannel sans modification
+    shell: "kubectl apply -f {{ kubernetes_flannel_manifest_file }}"
+    when: kubernetes_pod_network.cni == 'flannel' and kubernetes_role == 'control_plane'    
 
   - name: Download crictl binary
     get_url:
