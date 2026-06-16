@@ -42,12 +42,27 @@
       swapon -a
     when: swap_disabled == true
     
-  - name: install ntp
-    package:
+- name: Purge old ntp package to avoid conflicts
+    apt:
       name: ntp
+      state: absent
+      purge: true
+
+  - name: Ensure systemd-timesyncd is installed
+    apt:
+      name: systemd-timesyncd
       state: present
-  - name: update time
-    service: name=ntp state=restarted
+
+  - name: Ensure systemd-timesyncd is enabled and running
+    service:
+      name: systemd-timesyncd
+      state: started
+      enabled: true
+
+  - name: Force NTP synchronization via timedatectl
+    shell: timedatectl set-ntp true
+    changed_when: false
+    
   - name: ipforward to 1
     sysctl:
       name: net.ipv4.ip_forward
