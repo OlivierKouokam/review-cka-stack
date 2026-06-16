@@ -3,8 +3,10 @@
 
 Vagrant.configure("2") do |config|
     config.vm.define "master" do |master|
-      master.vm.box = "geerlingguy/ubuntu2004"
-      master.vm.box_version = "1.0"
+      # master.vm.box = "geerlingguy/ubuntu2004"
+      # master.vm.box_version = "1.0"
+      master.vm.box = "bento/ubuntu-24.04"
+      master.vm.box_version = "202510.26.0"
       master.vm.network "private_network", type: "static", ip: "192.168.99.10"
       master.vm.hostname = "master"
       master.vm.provider "virtualbox" do |v|
@@ -24,8 +26,10 @@ Vagrant.configure("2") do |config|
     cpu_worker=2
     (1..workers).each do |i|
       config.vm.define "worker#{i}" do |worker|
-        worker.vm.box = "geerlingguy/ubuntu2004"
-        worker.vm.box_version = "1.0"
+        # worker.vm.box = "geerlingguy/ubuntu2004"
+        # worker.vm.box_version = "1.0"
+        worker.vm.box = "bento/ubuntu-24.04"
+        worker.vm.box_version = "202510.26.0"
         worker.vm.network "private_network", type: "static", ip: "192.168.99.1#{i}"
         worker.vm.hostname = "worker#{i}"
         worker.vm.provider "virtualbox" do |v|
