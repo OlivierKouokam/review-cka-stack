@@ -42,7 +42,7 @@
       swapon -a
     when: swap_disabled == true
     
-- name: Purge old ntp package to avoid conflicts
+  - name: Purge old ntp package to avoid conflicts
     apt:
       name: ntp
       state: absent
