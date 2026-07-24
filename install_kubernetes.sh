@@ -42,8 +42,9 @@ then
           "kubernetes_role=control_plane \
            kubernetes_apiserver_advertise_address=$2 \
            installation_method=vagrant \
-           kubernetes_version='$KUBERNETES_VERSION' \
-           cluster_network_prefix='^192\\.168\\.99\\.'"
+           kubernetes_version='$KUBERNETES_VERSION'"
+   # kubernetes_version='$KUBERNETES_VERSION' \
+   # cluster_network_prefix='^192\\.168\\.99\\.'"
         #ansible-playbook install_kubernetes.yml --extra-vars "kubernetes_role=control_plane kubernetes_apiserver_advertise_address=$2 installation_method=vagrant kubernetes_version='$KUBERNETES_VERSION'"
         
         # Installer bash-completion puis enregistrer l’auto-complétion de kubectl
