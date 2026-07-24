@@ -41,10 +41,9 @@ then
         ansible-playbook install_kubernetes.yml --extra-vars \
           "kubernetes_role=control_plane \
            kubernetes_apiserver_advertise_address=$2 \
-           installation_method=vagrant \
-           kubernetes_version='$KUBERNETES_VERSION'"
-   # kubernetes_version='$KUBERNETES_VERSION' \
-   # cluster_network_prefix='^192\\.168\\.99\\.'"
+           installation_method=vagrant \           
+           kubernetes_version='$KUBERNETES_VERSION' \
+           cluster_network_prefix='^192\\.168\\.98\\.'"
         #ansible-playbook install_kubernetes.yml --extra-vars "kubernetes_role=control_plane kubernetes_apiserver_advertise_address=$2 installation_method=vagrant kubernetes_version='$KUBERNETES_VERSION'"
         
         # Installer bash-completion puis enregistrer l’auto-complétion de kubectl
@@ -57,6 +56,6 @@ then
         echo "You need to be root to use kubectl in $(ip -f inet addr show enp0s8 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') VM (run 'sudo su -' to become root and then use kubectl as you want)"
         echo "###################################################"
 else
-        ansible-playbook install_kubernetes.yml --extra-vars "kubernetes_role=$1 kubernetes_apiserver_advertise_address=$2 kubernetes_version='$KUBERNETES_VERSION' kubernetes_join_command='kubeadm join {{ kubernetes_apiserver_advertise_address }}:6443 --ignore-preflight-errors=all --token={{ token }}  --discovery-token-unsafe-skip-ca-verification' cluster_network_prefix='^192\\.168\\.99\\.'"
+        ansible-playbook install_kubernetes.yml --extra-vars "kubernetes_role=$1 kubernetes_apiserver_advertise_address=$2 kubernetes_version='$KUBERNETES_VERSION' kubernetes_join_command='kubeadm join {{ kubernetes_apiserver_advertise_address }}:6443 --ignore-preflight-errors=all --token={{ token }}  --discovery-token-unsafe-skip-ca-verification' cluster_network_prefix='^192\\.168\\.98\\.'"
         echo "For this Stack, you will use $(ip -f inet addr show enp0s8 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') IP Address"
 fi
