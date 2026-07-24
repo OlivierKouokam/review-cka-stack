@@ -13,8 +13,8 @@
     # kubernetes_kubelet_extra_args: "--node-ip={{ ansible_facts['eth1']['ipv4']['address'] }}"
     kubernetes_kubelet_extra_args: "--node-ip={{ node_ip }}"
     
-    # On définit le préfixe du réseau cible
-    cluster_network_prefix: "^192\\.168\\.99\\."
+    # # On définit le préfixe du réseau cible
+    # cluster_network_prefix: "^192\\.168\\.99\\."
     
     containerd_config_default_write: true
     crictl_version: "v1.31.1"
@@ -50,7 +50,8 @@
             | selectattr('ipv4', 'defined') 
             | map(attribute='ipv4') 
             | flatten 
-            | selectattr('address', 'match', cluster_network_prefix) 
+            | selectattr('address', 'match') 
+            # | selectattr('address', 'match', cluster_network_prefix) 
             | map(attribute='address') 
             | first 
           }}
